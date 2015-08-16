@@ -1,0 +1,45 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+  <style>
+  .walti-option-block {
+    margin-bottom: 0.8em;
+  }
+  .walti-option-description {
+    font-size: 0.8em;
+    margin-top: 0.2em;
+  }
+  </style>
+  <f:entry title="APIキー" field="key">
+    <f:textbox />
+  </f:entry>
+  <f:entry title="APIシークレット" field="secret">
+    <f:password />
+  </f:entry>
+  <f:entry title="ターゲット" field="target">
+    <f:select />
+  </f:entry>
+  <f:entry title="スキャンの種類" field="plugins">
+    <f:prepareDatabinding/>
+    ${descriptor.calcFillSettings(field,attrs)}
+
+    <j:if test="${instance != null}">
+      <input type="hidden" id="waltiOriginalPlugins" value="${instance.selectedPluginsString}" />
+    </j:if>
+    <m:div xmlns:m="jelly:hudson.util.jelly.MorphTagLibrary"
+           id="pluginCheckboxes"
+           class="walti-plugin-checkboxes"
+           ATTRIBUTES="${attrs}" EXCEPT="field clazz">
+    </m:div>
+    <script type="text/javascript" src="${rootURL}/plugin/walti/script/pluginCheckBoxes.js"></script>
+  </f:entry>
+  <f:entry title="オプション">
+    <div class="walti-option-block">
+      <div><f:checkbox field="noWait" title="スキャンの完了を待たずにビルド成功とする" /></div>
+      <p class="walti-option-description">時間のかかるスキャンを実行する場合など、キューの登録のみ行い結果が出るまで待たない場合にチェックしてください。</p>
+    </div>
+    <div class="walti-option-block">
+      <f:checkbox field="unstablePreferred" title="スキャン結果がOKでない場合、Jenkinsによるビルド結果をエラーではなく不安定(Unstable)にする" /><br />
+      <p class="walti-option-description">開発中など、スキャン結果をOKとするのは難しいがビルドエラーとは区別したい場合にチェックしてください。</p>
+    </div>
+  </f:entry>
+</j:jelly>
