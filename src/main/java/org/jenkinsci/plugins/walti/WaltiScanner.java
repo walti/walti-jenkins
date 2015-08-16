@@ -312,11 +312,12 @@ public class WaltiScanner extends Recorder implements Serializable {
                 for (Target target : targets) {
                     m.add(target.getName(), target.getName());
                 }
-                return m;
+            } catch (WaltiApiException e) {
+                // do nothing
             } catch (Exception e) {
                 e.printStackTrace();
-                return m;
             }
+            return m;
         }
 
         public CheckBoxModel doFillPluginsItems(@QueryParameter String key, @QueryParameter String secret, @QueryParameter String target) {
@@ -334,10 +335,12 @@ public class WaltiScanner extends Recorder implements Serializable {
                     model.add(new CheckBoxModel.Item(plugin.getName()));
                 }
                 return model;
+            } catch (WaltiApiException e) {
+                // do nothing
             } catch (Exception e) {
                 e.printStackTrace();
-                return model;
             }
+            return model;
         }
     }
 }
