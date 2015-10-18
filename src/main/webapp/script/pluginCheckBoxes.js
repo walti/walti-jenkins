@@ -2,13 +2,11 @@
 // then use the result to fill the list box.
 function updateCheckBox(container ,url,config) {
     config = config || {};
-    config = object(config);
     var originalPlugins = [];
     var pluginNode;
     if (pluginNode = $('waltiOriginalPlugins')) {
         originalPlugins = pluginNode.value.split(',');
     }
-    var originalOnSuccess = config.onSuccess;
     config.onSuccess = function(rsp) {
         var c = $(container);
         while (container.hasChildNodes()) {
@@ -19,21 +17,22 @@ function updateCheckBox(container ,url,config) {
         var opts = eval('('+rsp.responseText+')').values;
 
         for( var i=0; i<opts.length; i++ ) {
-            var box = document.createElement('input');
-            box.setAttribute('type', 'checkbox');
-            box.setAttribute('id', opts[i].name);
-            box.setAttribute('name', '_.plugins');
-            box.setAttribute('value', opts[i].name);
-            box.setAttribute('json', opts[i].name);
-            if (originalPlugins.indexOf(opts[i].name) !== -1) {
-                box.setAttribute('checked', 'true');
+            var pluginName = opts[i].name;
+            var box = new Element('input', {
+                type: 'checkbox',
+                id: pluginName,
+                name: '_.plugins',
+                value: pluginName,
+                json: pluginName
+            });
+            if (originalPlugins.indexOf(pluginName) !== -1) {
+                box.writeAttribute('checked', 'true');
             }
 
-            var label = document.createElement('label');
-            label.htmlFor = opts[i].name;
-            label.appendChild(document.createTextNode(opts[i].name));
+            var label = new Element('label', { for: pluginName });
+            label.insert(pluginName);
 
-            var div = document.createElement('div');
+            var div = new Element('div');
             div.appendChild(box);
             div.appendChild(label);
             container.appendChild(div);
