@@ -31,6 +31,10 @@ function updateCheckBox(container ,url,config) {
 
             var label = new Element('label', { for: pluginName });
             label.insert(pluginName);
+            if (pluginName === 'skipfish') {
+                var t = new Template('（事前に<a href="#{url}" target="_blank">Walti.ioのターゲット画面</a>から設定を行ってください）');
+                label.insert(t.evaluate({url: 'https://app.walti.io/targets/' + config.parameters.target}));
+            }
 
             var div = new Element('div');
             div.appendChild(box);
