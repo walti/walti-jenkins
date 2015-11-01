@@ -1,15 +1,15 @@
 # Walti Plugin
 
-Walti Plugin は Jenkins の 「ビルド後の処理」にセキュリティスキャンサービス [Walti](https://walti.io/) によるスキャンの実行を追加するプラグインです。
+This plugin enable to execute security scan by [Walti](https://walti.io/) after Jenkins has completed building.
 
-## 使用方法
+## How to use
 
-* [Walti](https://walti.io) のアカウントをまだお持ちでない場合はサインアップしてアカウントを取得してください。
-* プラグインをインストールすると、プロジェクト設定画面の「ビルド後の処理」に「Waltiでスキャンを実行」が追加されるのでこちらを選択します。
-* スキャンの際に必要となるAPIキーとAPIシークレットを入力します。
-* APIキーとシークレットに基づいて組織が特定され、ターゲットの候補が更新されるのでスキャンするターゲットを選択してください。
-* 実行したいスキャンの種類をチェックして変更を保存してください。
+* Sign up [Walti](https://walti.io/) if you have not have an account yet.
+* Install this plugin, then add "Execute scan by Walti" as post-build action in your project configuration.
+* Input API key and secret, which are needed to execute scan.
+* After you have inputted credentials, target candidates has been automatically refreshed. Select which server to scan.
+* Check scan type you want to execute then click the save button.
 
-## 関連リポジトリ
+## Related Repository
 
 * [walti/walti-api-jar](https://github.com/walti/walti-api-jar)
