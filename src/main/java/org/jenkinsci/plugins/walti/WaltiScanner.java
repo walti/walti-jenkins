@@ -13,6 +13,7 @@ import hudson.tasks.Recorder;
 import hudson.util.FormValidation;
 import hudson.util.ListBoxModel;
 import hudson.util.Messages;
+import hudson.util.Secret;
 import io.walti.api.Plugin;
 import io.walti.api.Scan;
 import io.walti.api.Target;
@@ -38,7 +39,7 @@ public class WaltiScanner extends Recorder implements Serializable {
     private static final int POLLING_INTERVAL = 10;
 
     private final String key;
-    private final String secret;
+    private final Secret secret;
     private final String target;
     private final List<String> selectedPlugins;
     private final boolean noWait;
@@ -47,7 +48,7 @@ public class WaltiScanner extends Recorder implements Serializable {
     @DataBoundConstructor
     public WaltiScanner(String key, String secret, String target, JSONArray plugins, boolean noWait, boolean unstablePreferred) {
         this.key = key;
-        this.secret = secret;
+        this.secret = Secret.fromString(secret);
         this.target = target;
         this.selectedPlugins = new ArrayList<String>();
         Collection<String> col = JSONArray.toCollection(plugins, ArrayList.class);
@@ -70,7 +71,7 @@ public class WaltiScanner extends Recorder implements Serializable {
      *
      * @return API secret
      */
-    public String getSecret() {
+    public Secret getSecret() {
         return secret;
     }
 
@@ -111,7 +112,7 @@ public class WaltiScanner extends Recorder implements Serializable {
     @Override
     public boolean perform(AbstractBuild build, Launcher launcher, BuildListener listener) throws IOException {
         PrintStream logger = listener.getLogger();
-        WaltiApi api = WaltiApi.createInstance(key, secret);
+        WaltiApi api = WaltiApi.createInstance(key, secret.getPlainText());
         Set<String> selectedPlugins = new HashSet<String>(getSelectedPlugins());
 
         Scan.QueueResult queueResult = Scan.QueueResult.UNDEFINED;
@@ -287,7 +288,7 @@ public class WaltiScanner extends Recorder implements Serializable {
                 return FormValidation.ok();  // まだAPIキーが入力されていない場合は何もしない
             }
 
-            WaltiApi api = WaltiApi.createInstance(key, secret);
+            WaltiApi api = WaltiApi.createInstance(key, Secret.fromString(secret).getPlainText());
             try {
                 if (!api.isValidCredentials()) {
                     return FormValidation.error("APIキーまたはシークレットが正しくありません。");
@@ -306,7 +307,7 @@ public class WaltiScanner extends Recorder implements Serializable {
                 return m;
             }
 
-            WaltiApi api = WaltiApi.createInstance(key, secret);
+            WaltiApi api = WaltiApi.createInstance(key, Secret.fromString(secret).getPlainText());
             try {
                 List<Target> targets = Target.getAll(api);
                 for (Target target : targets) {
@@ -322,7 +323,7 @@ public class WaltiScanner extends Recorder implements Serializable {
 
         public CheckBoxModel doFillPluginsItems(@QueryParameter String key, @QueryParameter String secret, @QueryParameter String target) {
             // ターゲット情報
-            WaltiApi api = WaltiApi.createInstance(key, secret);
+            WaltiApi api = WaltiApi.createInstance(key, Secret.fromString(secret).getPlainText());
             CheckBoxModel model = new CheckBoxModel();
 
             if (target.isEmpty()) {
