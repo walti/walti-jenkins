@@ -2,6 +2,8 @@
 
 This plugin enable to execute security scan by [Walti](https://walti.io/) after Jenkins has completed building.
 
+[![Build Status](https://jenkins.ci.cloudbees.com/job/plugins/job/walti-plugin/2/badge/icon)](https://jenkins.ci.cloudbees.com/job/plugins/job/walti-plugin/2/)
+
 ## How to use
 
 * Sign up [Walti](https://walti.io/) if you have not have an account yet.

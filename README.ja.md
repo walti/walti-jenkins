@@ -2,6 +2,8 @@
 
 Walti Plugin は Jenkins の 「ビルド後の処理」にセキュリティスキャンサービス [Walti](https://walti.io/) によるスキャンの実行を追加するプラグインです。
 
+[![Build Status](https://jenkins.ci.cloudbees.com/job/plugins/job/walti-plugin/2/badge/icon)](https://jenkins.ci.cloudbees.com/job/plugins/job/walti-plugin/2/)
+
 ## 使用方法
 
 * [Walti](https://walti.io) のアカウントをまだお持ちでない場合はサインアップしてアカウントを取得してください。
